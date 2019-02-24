@@ -1,113 +1,12 @@
 /*
--------------------------------------------------
- SVG-IOT - SIMULADOR DE VENDAS A GRANEL NO VAREJO
--------------------------------------------------
 
+=============================================================
+Bem vindo ao SVG-IOT - Simulador de Vendas a Granel no Varejo 
+=============================================================
 
-----------------------
+This document Copyright (c) 2019-present Leonardo Wascheck
 
-
-ALERTAS COM BOMBAS VENDENDO COM PRECO UNITARIO MAIOR QUE R$ 5,000 POR LITRO
----------------------------------------------------------------------------
-
-Testei o SVG-IOT com varios cenarios tentando prever impactos na emissao de DF-e no mundo real.
-Fiz os testes com os seguintes campos de entrada:
-Entre com o cenario IAT...............................: 2 ou 3
-Preco Unitario........................................: R$ 5,899
-Numero Casas decimais da QTDE na venda Equipamento IOT: 3
-Numero Casas decimais da QTDE do documento fiscal DF-e: 3
-Simular vendas DE  xxx litros ........................: 0
-Simular vendas ATE xxx litros ........................: 100
-
-Neste cenario, identifiquei que o sistema comecou a apresentar varios alertas "Ajustado, porem com diferenca 
-entre: BD x DF-e".  Caso voce trabalhe com Postos de Combustiveis, a chance de voce ter problemas na geracao dos 
-arquivos Sped e Sintegra é muito grande.
-Portanto, recomendo que voce modifique a sua aplicacao comercial em uma das seguintes formas:
-a) Alterar o seu aplicativo comercial quanto o ERP para tratar o campo IAT no seu banco de dados 
-b) Alterar o seu aplicativo comercial quanto o ERP para tratar o campo Qtde com 4 casas decimais   
-
-Nota: Fazendo novamente os testes acima mas modificando o campo Numero Casas Decimais da Qtde do DF-e para 4 casas 
-decimais os alertas de diferencas entre BD x DF-e pararam de ser gerados.
-
-ERROS COM BOMBAS VENDENDO COM PRECO UNITARIO MAIOR QUE R$ 10,000 POR LITRO
-----------------------------------------------------------------------------------
-
-Depois de realizar os testes com preco unitario maior que R$ 5,000, resolver testar com preco unitario maior
-que R$ 10,000.  Veja o resultado a seguir.
-Fiz os testes com os seguintes campos de entrada:
-Entre com o cenario IAT...............................: 2 ou 3
-Preco Unitario........................................: R$ 10,899
-Numero Casas decimais da QTDE na venda Equipamento IOT: 3
-Numero Casas decimais da QTDE do documento fiscal DF-e: 3
-Simular vendas DE  xxx litros ........................: 0
-Simular vendas ATE xxx litros ........................: 100
-
-Neste cenario, identifiquei que o sistema comecou a apresentar varios erros "Numero de elementos impossivel 
-solucionar o ajuste da Qtde do DF-e".  Note que, quando os precos das bombas de combustiveis chegarem a este valor
-havera um caos para os aplicativos comercial que utilizam tres casas decimais no campo Qtde do DF-e.
-Neste caso, havera rejeicao do XML pelo SEFAZ ou travamento no ECF.
-A unica forma de contornar esta situacao é modificando a sua aplicacao comercial quanto o ERP para tratar o campo 
-Qtde com 4 casas decimais.
-
-Nota: Fazendo novamente os testes acima mas modificando o campo Numero Casas Decimais da Qtde do DF-e para 4 casas 
-decimais os alertas de diferencas entre BD x DF-e pararam de ser gerados.
-
-
-
----------------------------------------------------------
-Problemas encontrados em Bares, Restaurantes e Similares:
----------------------------------------------------------
-
-ERROS COM BALANCAS VENDENDO COM DUAS CASAS DECIMAIS NA QTDE IOT
----------------------------------------------------------------
-
-O problema de arredondamento e truncamento da da balanca é mais conhecido pelo fato que muitos modelos operam
-no formato de duas casas decimais e o preco unitario do KG é passa os R$ 10,00, as vezes passando de R$ 100,00
-o que intensifica ainda mais a situacao.
-
-Realizei os testes com preco unitario de R$ 69,900, e o problema ocorre em praticamente todos os elementos de vendas.
-Fiz os testes com os seguintes campos de entrada:
-Entre com o cenario IAT...............................: 2 ou 3
-Preco Unitario........................................: R$ 69,90
-Numero Casas decimais da QTDE na venda Equipamento IOT: 2
-Numero Casas decimais da QTDE do documento fiscal DF-e: 3
-Simular vendas DE  xxx litros ........................: 0
-Simular vendas ATE xxx litros ........................: 100
-
-Neste cenario, praticamente para todos os elementos de vendas ocorreram erros sem ser possivel fazer o ajuste.
-Muitas software houses resolvem este problema recalculando a Qtde como sendo o valor total (gerado pela balanca)
-divido pelo preco unitario.  Mas mesmo assim, esta solucao pode levantar suspeita por parte do consumidor, uma
-vez que as diferencas ajustas na Qtde do DF-e pode chegar a decimos ou centisimos e nao a milesimos ou decamilesimos
-como o proposto por este aplicativo.
-Mais uma vez, para contornar esta situacao é necessario a modificacao da aplicacao comercial e do ERP para tratar o 
-campo Qtde com 4 casas decimais.
-Nota: Fazendo novamente os testes acima mas modificando o campo Numero Casas Decimais da Qtde do DF-e para 4 casas 
-decimais os erros pararam mas foram gerados alertas de diferencas entre BD x DF-e.
-
-
-Conclusao:
-----------
-
-Os problemas de arredondamento e truncamento na automacao comercial com vendas a granael sao inevitaveis mas mesmo assim � possivel mitigar ou ate
-mesmo eliminar este problemas caso algumas medidas forem tomadas.
-
-As solucoes possiveis mitigar estes problemas sao:
-- Quando possivel, parametrizar os campos IAT e numero de qtde decimais das bombas/balancas (consultar manual do fabricante)
-- Parametrizar os campos IAT da AC e do documento fiscal de acordo com o IAT da bomba/balanca
-- Utilizar 4 casas decimais na qtde do documento fiscal
-- Utilizar o algoritimo de interpolacao desta simulador de vendas a granel
-
-
-CENARIOS QUANTO CONFIGURACAO DO IAT (A=arredondamento, T=truncamento)
-
-CENARIO               BOMBA/BALANCA         EQUIPAMENTO FISCAL/SEFAZ     SOLUCAO
-                    (VENDA GRANEL IOT)       (DOCUMENTO FISCAL DF-e)
-   1                        A                           A                METODOS SIMILARES, PORTANTO NAO PRECISA SER TRATADO
-   2                        A                           T                CENARIO TRATADO POR ESTE PROGRAMA
-   3                        T                           A                CENARIO TRATADO POR ESTE PROGRAMA
-   4                        T                           T                METODOS SIMILARES, PORTANTO NAO PRECISA SER TRATADO
-
-   */
+*/
 
 func Main ()
 
@@ -152,7 +51,7 @@ func Main ()
 
    private nARREDONDADO, nTRUNCADO, nARRED_NEW, nTRUNC_NEW
 
-   altd ()
+   // altd ()
 
    EmiteRelatorioVendasSimuladasIOT ()
 
@@ -555,7 +454,6 @@ func SetPType (cSECTION, cVAR, cVALOR, cFILE) // SetProtoType, trata secoes e ca
    
       // procure por fim de linha (LF)
       if !Empty (nIni_VALOR := AT (LF, SubStr (cOLDLINE, 2)))
-         // altd ()
          cStr_VALOR = SubStr (cStr_VALOR, 1,                   nIni_VALOR - (Len (cVAR)) ) // retira o LF, 1="="
          cStr_VALOR_= SubStr (cStr_VALOR_,1,                   nIni_VALOR - (Len (cVAR)) ) // retira o LF, 1="="
          cOLDLINE   = SubStr (cStr_,      nINI + nINI_VAR - 1, nINI_VALOR)                  // retira o LF
