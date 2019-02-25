@@ -8,9 +8,9 @@ entendimento.
 
 1. [Objetivo do SVG-IOT](#objetivo-do-svg-iot)
 2. [Uma Breve Historia do Arredondamento e Truncamento nas Vendas do Varejo](#uma-breve-historia-do-Arredondamento-e-truncamento-nas-vendas-do-varejo)
-3. [Como funciona o SVG-IOT ?](#como-funciona-o-svg-iot-?)
+3. [Como funciona o SVG-IOT](#como-funciona-o-svg-iot)
 4. [Diagnosticando Problemas Criticos em Postos de Combustiveis](#diagnosticando-problemas-criticos-em-postos-de-combustiveis)
-5. [Diagnosticando Problemas Criticos em Padarias, Lanchonetes e Supermercados](#diagnosticando-problemas-criticos-em-padarias,-Lanchonetes-e-supermercados)
+5. [Diagnosticando Problemas Criticos em Padarias Lanchonetes e Supermercados](#diagnosticando-problemas-criticos-em-padarias-Lanchonetes-e-supermercados)
 6. [Conclusao](#conclusao)
 
 ---
@@ -39,7 +39,7 @@ varejo.
 Existem uma infinidade de marcas e modelos destes aparelhos no mercado, alguns modelos antigos e obsoletos
 continuam sendo utilizado por alguns clientes, tornando a integracao com os aplicativos comerciais um 
 tema complexo.
-A partir de agora, irei me referenciar a estes aparelhos como "Equipamentos IOT".
+A partir de agora, irei me referenciar a estes aparelhos como **Equipamentos IOT**.
 Os Equipamentos IOT, reproduzem as vendas a granel e interagem com os aplicativos comerciais (PDV) que por 
 sua vez geram e emitem os documentos fiscais eletronicos (DF-e), tais como, NF-e, NFC-e, CF-e e ECF, 
 imprimem o extrato/danfe do cupom fiscal e enviam o XML para o site da SEFAZ, compartilhando essas 
@@ -166,7 +166,7 @@ Veja mais abaixo o topico [Como funciona o SVG-IOT](#como-funciona-o-svg-iot-?).
 
 ---
 
-# Como funciona o SVG-IOT ?
+# Como funciona o SVG-IOT 
 
 O aplicativo Simulador de Vendas a Granel no Varejo (SVG-IOT), esta divido em 
 tres partes:
@@ -177,7 +177,7 @@ tres partes:
 
 A seguir, Irei detalhar cada etapa do aplicativo.
 
-## 1. Entrada de dados pelo usuario 
+## Entrada de dados pelo usuario 
 
 O usuario podera entrar com dados para parametrizar o cenario do cliente, podendo
 formatar a qtde da venda IOT, numero de casas decimais da Qtde, escolher o intervalo 
@@ -203,9 +203,7 @@ nestas condicoes nao ocorrem divergencias de arredondamento e truncamento no
 calculo do valor total da venda.  Portanto, estes dois cenarios nao serao 
 tratados neste aplicativo.
    
-Ja para os cenarios 2 e 3, os metodos IAT sao diferentes, e o "Relatorio dos 
-elementos de vendas simulados" ira tentar solucionar os problemas de arredondamento e 
-truncamento conforme eles surjam.
+Ja para os cenarios 2 e 3, os metodos IAT sao diferentes, e o **Relatorio dos elementos de vendas simulados** ira tentar solucionar os problemas de arredondamento e truncamento conforme eles surjam.
 O SVG-IOT aplica o algoritimo de interpolacao para tentar resolver os conflitos 
 de valores gerados pelos Equipamentos IOT e DF-e.  Para isso, o aplicativo
 a cada iteracao, incrementa (cenario 2) ou decrementa (cenario 3) a qtde do Df-e 
@@ -213,8 +211,7 @@ uma unidade na terceira ou quarta casa decimal ate encontrar um valor de venda
 do DF-e que correspondente ao do Equipamento IOT.  
 Mas existem casos que mesmo apos a interpolacao nao é possivel solucionar/ajustar
 um determinado elemento de venda.  Ao final do relatorio, o SVG-IOT reportara 
-estes erros na linha "Numero de elementos impossivel solucionar o ajuste da 
-Qtde do DF-e ".
+estes erros na linha **Numero de elementos impossivel solucionar o ajuste da Qtde do DF-e**.
 
 ### Preco Unitario:
 
@@ -245,7 +242,7 @@ Entre com o intervalo DE e ATE das qtde vendas simuladas do equipamento IOT.
 O numero de elementos simulados dependera do intervalo e tambem do numero de 
 casas decimais da Qtde Venda IOT.
 
-## 2. Apresentacao do Relatorio dos elementos de vendas simulados
+## Apresentacao do Relatorio dos elementos de vendas simulados
 
 O relatorio gera os elementos de vendas do equipamento IOT e do DF-e separado
 pelo delimitador "|".
@@ -256,8 +253,7 @@ pelo delimitador "|".
     arred  = Valor total do IOT (prcuni * qt) - metodo arredondado
     trunc  = Valor total do IOT (prcuni * qt) - metodo truncado
     d      = diferenca apurada entre o valor arredondado e truncado (arred-trunc)
-    Nota: Note que, dependendo do cenario IAT o campo arred ou trunc estara delimitado 
-    por cochetes indicando se utilizado "A" ou "T".  Ex: [arred=10.00]  
+>Nota: Note que, dependendo do cenario IAT o campo arred ou trunc estara delimitado por cochetes indicando se utilizado "A" ou "T".  Ex: [arred=10.00]  
 
 ### Detalhando os elementos de vendas ajustados do DF-e:
 
@@ -266,13 +262,13 @@ pelo delimitador "|".
     arredN    = Valor total do DF-e (prcuni * qtN) pelo metodo arredondado
     truncN    = Valor total do DF-e (prcuni * qtN) pelo metodo truncado
     dN        = diferenca apurada entre o valor arredondado e truncado (arred-trunc)
-    Nota: Note que, dependendo do cenario IAT o campo arred ou trunc estara delimitado por cochetes dependendo do metodo se "A" ou "T".  Ex: [arred=10.00]  
+>Nota: Note que, dependendo do cenario IAT o campo arred ou trunc estara delimitado por cochetes dependendo do metodo se "A" ou "T".  Ex: [arred=10.00]  
 
-## 3. Apresentacao do Resultado das Analises dos Elementos de vendas
+## Apresentacao do Resultado das Analises dos Elementos de vendas
 
 Nesta etapa é apresentado o sumario e alguns indicadores do relatorio de vendas.
 
-Vale destacar o significado do alerta "Numero elementos ajustados porem c/possiveis diferencas entre BD x DF-e".
+Vale destacar o significado do alerta **Numero elementos ajustados porem c/possiveis diferencas entre BD x DF-e**.
 Mas antes vamos relembrar um conceito.  O valor total é sempre calculado multiplicando o preco unitario com a
 qtde.  Note que o valor calculado por cada metodo de IAT podera resultar em valores diferencas.
 Ex: O resultado pode ser 10,01 para o metodo de arredondamento e 10,00 para o metodo de truncamento.
@@ -283,7 +279,7 @@ contabeis e fiscais que precisam estar fidedignos com os documentos fiscais elet
  O SVG-IOT consegue identificar estes possiveis erros de gravacao no BD da AC e alertar o usuario.
 A melhor forma de contornar este problema é alterar o PDV para tratar o campo IAT junto com a venda.
 
-Outro indicador importante é o "Numero de elementos impossivel solucionar o ajuste da Qtde do DF-e", o qual mostra
+Outro indicador importante é o **Numero de elementos impossivel solucionar o ajuste da Qtde do DF-e**, o qual mostra
 os elementos que requereram ajustes mas que a interpolacao nao conseguiu resolver atraves das iteracoes de incrementos
 e decrementos.  
 
@@ -304,8 +300,7 @@ Fiz os testes com os seguintes campos de entrada:
     Simular vendas DE  xxx litros ........................: 0
     Simular vendas ATE xxx litros ........................: 100
 
-Neste cenario, identifiquei que o sistema comecou a apresentar varios alertas "Ajustado, porem com diferenca 
-entre: BD x DF-e".  Caso voce trabalhe com Postos de Combustiveis, a chance de voce ter problemas na geracao dos 
+Neste cenario, identifiquei que o sistema comecou a apresentar varios alertas **Ajustado, porem com diferenca entre: BD x DF-e**.  Caso voce trabalhe com Postos de Combustiveis, a chance de voce ter problemas na geracao dos 
 arquivos Sped e Sintegra é muito grande.
 
 Portanto, recomendo que voce modifique a sua aplicacao comercial em uma das seguintes formas:
@@ -328,8 +323,7 @@ Fiz os testes com os seguintes campos de entrada:
     Simular vendas DE  xxx litros ........................: 0
     Simular vendas ATE xxx litros ........................: 100
 
-Neste cenario, identifiquei que o sistema comecou a apresentar varios erros "Numero de elementos impossivel 
-solucionar o ajuste da Qtde do DF-e".  Note que, quando os precos das bombas de combustiveis chegarem a este valor
+Neste cenario, identifiquei que o sistema comecou a apresentar varios erros **Numero de elementos impossivel solucionar o ajuste da Qtde do DF-e**.  Note que, quando os precos das bombas de combustiveis chegarem a este valor
 havera um caos para os aplicativos comercial que utilizam tres casas decimais no campo Qtde do DF-e.
 Neste caso, havera rejeicao do XML pelo SEFAZ ou travamento no ECF.
 A unica forma de contornar esta situacao é modificando a sua aplicacao comercial quanto o ERP para tratar o campo 
@@ -339,7 +333,7 @@ Qtde com 4 casas decimais.
 
 ---
 
-# Diagnosticando Problemas Criticos em Padarias, Lanchonetes e Supermercados
+# Diagnosticando Problemas Criticos em Padarias Lanchonetes e Supermercados
 
 ## ERROS COM BALANCAS VENDENDO COM DUAS CASAS DECIMAIS NA QTDE IOT
 
