@@ -4,6 +4,8 @@
 Bem vindo ao SVG-IOT - Simulador de Vendas a Granel no Varejo 
 =============================================================
 
+MIT License
+
 This document Copyright (c) 2019-present Leonardo Wascheck
 
 */
@@ -283,7 +285,7 @@ func ImprimeElementosDasIteracoesDfe (nARREDONDADO, nTRUNCADO, nSinal)
       
       if (cIAT_DFE = 'T' .and. nTRUNC_NEW > nARREDONDADO) .or. ;
          (cIAT_DFE = 'A' .and. nARRED_NEW < nTRUNCADO)
-         // estourou valor, nao sera possivel realizar proximas iteracoes para este metodo
+         // estourou valor, nao sera possivel realizar proximas iteracoes para este elemento de venda neste metodo
          exit
       end
       if !lRequerAjuste
@@ -320,7 +322,7 @@ return
 func GetValoresIAT (nQTDE, nNumCasasDecimaisQtd, nPrecoUnit, nARREDONDADO, nTRUNCADO)
 local nFixRound := (1 / (10 ^ (nNumCasasDecimaisQtd + 1))) * 5 // nNumCasasDecimais=2 -> nFixRound = 0.005, nNumCasasDecimais=3 -> nFixRound = 0.0005, nNumCasasDecimais=4 -> nFixRound = 0.00005
 
-   // trunca com duas casas decimais (ignorando as demais casas)
+   // trunca valor total da venda com duas casas decimais (ignorando as demais casas)
    nTRUNCADO = VAL (Left (Str ((nQTDE * nPrecoUnit) + 0.00005, 13, 6), 9) )
 
    // contorna o problema do "floating point trap" do harbour retornando o valor correto

@@ -70,8 +70,8 @@ O aplicativo comercial deve permitir a parametrizacao do IAT para compatibilizar
 mesma regra do Equipamento IOT, principalmente nos documentos ECF convenio 09/09 e CF-e.
 Preferencialmente o equipamento IOT deve estar parametrizado no modo Truncamento (T) pois muito estados
 permitem apenas este metodo no DF-e.
-** Em alguns modelos de balancas e bombas mecanicas, o campo qtde ou valor total do item podem nao fazer
-parte das informacoes de vendas passas ao aplicativo comercial.  Mas ao menos um dos dois campos devem
+* Em alguns modelos de balancas e bombas mecanicas, o campo qtde ou valor total do item podem nao fazer
+parte das informacoes de vendas passadas ao aplicativo comercial.  Mas ao menos um dos dois campos devem
 estar presentes (qtde ou valor total).  Nestes casos, o aplicativo comercial precisa calcular ou a qtde 
 (dividindo o valor total do item pelo preco unitario) ou o valor total do item (multiplicando a qtde pelo 
 preco unitario).
@@ -185,30 +185,23 @@ das vendas e o metodo de arredondamento e truncamento para as simulacoes.
 
 A seguir segue a descricao dos campos de entrada:
 
-### Cenario:
+### Cenario IAT:
 
 Existem quatro combinacoes possiveis do IAT para os equipamentos IOT e os DF-e o qual iremos denomina-los
 de cenarios:
 
-CENARIO               BOMBA/BALANCA         EQUIPAMENTO FISCAL/SEFAZ     
-                (VENDA EQUIPAMENTO IOT)       (DOCUMENTO FISCAL DF-e)
-   1*                       A                           A                
-   2                        A                           T                
-   3                        T                           A                
-   4*                       T                           T                
-
-Cenario IAT | BOMBA/BALANCA<br>(VENDA EQUIPAMENTO IOT) | EQUIPAMENTO FISCAL/SEFAZ<br>(DOCUMENTO FISCAL DF-e)
+Cenario IAT |    BOMBA/BALANCA<br>(VENDA EQUIPAMENTO IOT) | EQUIPAMENTO FISCAL/SEFAZ<br>  (DOCUMENTO FISCAL DF-e)
  :--------- | :----------------------- | :------------------------
- 1*         | A         | A
- 2          | A         | T
- 3          | T         | A
- 4*         | T         | T
+    1*      | A         | A
+    2       | A         | T
+    3       | T         | A
+    4*      | T         | T
  
 
-  **Nota*: Note que, nos cenarios 1 e 4 os IATs do euipamento IOT e DF-e sao equivalentes nos dois ambientes e 
-  nestas condicoes nao ocorrem divergencias de arredondamento e truncamento no 
-  calculo do valor total da venda.  Portanto, estes dois cenarios nao serao 
-  tratados neste aplicativo.
+Note que, nos cenarios 1 e 4 os IATs do euipamento IOT e DF-e sao equivalentes nos dois ambientes e 
+nestas condicoes nao ocorrem divergencias de arredondamento e truncamento no 
+calculo do valor total da venda.  Portanto, estes dois cenarios nao serao 
+tratados neste aplicativo.
    
 Ja para os cenarios 2 e 3, os metodos IAT sao diferentes, e o "Relatorio dos 
 elementos de vendas simulados" ira tentar solucionar os problemas de arredondamento e 
@@ -239,17 +232,17 @@ Entretanto, o SVG-IOT foi desenvolvido para simular vendas IOT com ate quatro ca
 
 ### Numero Casas deciamais QTDE do documento fiscal DF-e:
 
-Dependendo o modelo do documento fiscal de venda, o campo QTDE pode ser formatado para dois, tres, quatro
+Dependendo do modelo do documento fiscal de venda, o campo QTDE pode ser formatado para dois, tres, quatro
 e ate seis casas decimais.  Entretanto, este aplicativo ira realizar os ajustes da QTDE para ate quatro
 casas decimais.
-Nota: O numero de casas decimais da QTDE do DF-e nao pode ser menor que o numero de casas decimais da 
+>Nota: O numero de casas decimais da QTDE do DF-e nao pode ser menor que o numero de casas decimais da 
 QTDE do equipamento IOT.  Ate porque na pratica isso nunca acontece.  Na realidade, esta situacao poderia
 ocorrer nos primeiros ECFs e que foram descontinuados pelo governo.
 
 ### Simular Vendas DE e ATE xxxx Litros:
 
 Entre com o intervalo DE e ATE das qtde vendas simuladas do equipamento IOT.  
-O numero de elementos simulados dependera do intervalor e tambem do numero de 
+O numero de elementos simulados dependera do intervalo e tambem do numero de 
 casas decimais da Qtde Venda IOT.
 
 ## 2. Apresentacao do Relatorio dos elementos de vendas simulados
@@ -258,29 +251,24 @@ O relatorio gera os elementos de vendas do equipamento IOT e do DF-e separado
 pelo delimitador "|".
 
 ### Detalhando os elementos de vendas do equipamento IOT:
-  prcuni = Preco unitario
-  qt     = Qtde simulada do equipamento IOT
-  arred  = Valor total do IOT (prcuni * qt) - metodo arredondado
-  trunc  = Valor total do IOT (prcuni * qt) - metodo truncado
-  d      = diferenca apurada entre o valor arredondado e truncado (arred-trunc)
-    **Nota:* Note que, dependendo do cenario IAT o campo arred ou trunc estara delimitado 
+    prcuni = Preco unitario
+    qt     = Qtde simulada do equipamento IOT
+    arred  = Valor total do IOT (prcuni * qt) - metodo arredondado
+    trunc  = Valor total do IOT (prcuni * qt) - metodo truncado
+    d      = diferenca apurada entre o valor arredondado e truncado (arred-trunc)
+    *Nota:* Note que, dependendo do cenario IAT o campo arred ou trunc estara delimitado 
     por cochetes indicando se utilizado "A" ou "T".  Ex: [arred=10.00]  
 
 ### Detalhando os elementos de vendas ajustados do DF-e:
 
-  Iteracao  = Numero da iteracao utilizada na tentativa de solucionar o possivel
-              conflito de arredondamento e truncamento.  Caso for possivel
-              resolver o problema sera exibido AchouN, onde N é a iteracao 
-              que resolveu a diferenca. Caso contrario, sera exibido "Erro".
-  qtN       = Qtde ajustada do DF-e (incrementada/decrementada de acordo com o 
-              numero de iteracao)
-  arredN    = Valor total do DF-e (prcuni * qtN) pelo metodo arredondado
-  truncN    = Valor total do DF-e (prcuni * qtN) pelo metodo truncado
-  dN        = diferenca apurada entre o valor arredondado e truncado (arred-trunc)
-    **Nota:* Note que, dependendo do cenario IAT o campo arred ou trunc estara delimitado 
-    por cochetes dependendo do metodo se "A" ou "T".  Ex: [arred=10.00]  
+    Iteracao  = Numero da iteracao utilizada na tentativa de solucionar o possivel conflito de arredondamento e truncamento.  Caso for possivel resolver o problema sera exibido AchouN, onde N é a iteracao que resolveu a diferenca. Caso contrario, sera exibido "Erro".
+    qtN       = Qtde ajustada do DF-e (incrementada/decrementada de acordo com o numero de iteracao)
+    arredN    = Valor total do DF-e (prcuni * qtN) pelo metodo arredondado
+    truncN    = Valor total do DF-e (prcuni * qtN) pelo metodo truncado
+    dN        = diferenca apurada entre o valor arredondado e truncado (arred-trunc)
+    **Nota:* Note que, dependendo do cenario IAT o campo arred ou trunc estara delimitado por cochetes dependendo do metodo se "A" ou "T".  Ex: [arred=10.00]  
 
-## Apresentacao do Resultado das Analises dos Elementos de vendas
+## 3. Apresentacao do Resultado das Analises dos Elementos de vendas
 
 Nesta etapa é apresentado o sumario e alguns indicadores do relatorio de vendas.
 
@@ -290,9 +278,9 @@ qtde.  Note que o valor calculado por cada metodo de IAT podera resultar em valo
 Ex: O resultado pode ser 10,01 para o metodo de arredondamento e 10,00 para o metodo de truncamento.
 Assim que o aplicativo fizer o ajuste da Qtde do DF-e, novos valores podem ser gerados pelo PDV e gravados no 
 banco de dados do PDV e replicado ao ERP.  Caso o PDV nao estiver preparado para gravar o metodo IAT no banco 
-de dados (BD) do aplicativo fiscal (AC), estes registros estarao passiveis de erros de arredondamentos na manuseio de relatorios
+de dados (BD) do aplicativo fiscal (AC), estes registros estarao passiveis de erros de arredondamentos no manuseio de relatorios
 contabeis e fiscais que precisam estar fidedignos com os documentos fiscais eletronicos (DF-e) emitidos na SEFAZ.
-O SVG-IOT consegue identificar estes possiveis erros de gravacao no BD da AC e alertar o usuario.
+ O SVG-IOT consegue identificar estes possiveis erros de gravacao no BD da AC e alertar o usuario.
 A melhor forma de contornar este problema é alterar o PDV para tratar o campo IAT junto com a venda.
 
 Outro indicador importante é o "Numero de elementos impossivel solucionar o ajuste da Qtde do DF-e", o qual mostra
@@ -308,12 +296,12 @@ e decrementos.
 Testei o SVG-IOT com varios cenarios tentando prever impactos na emissao de DF-e no mundo real.
 Fiz os testes com os seguintes campos de entrada:
 
-  Entre com o cenario IAT...............................: 2 ou 3
-  Preco Unitario........................................: R$ 5,899
-  Numero Casas decimais da QTDE na venda Equipamento IOT: 3
-  Numero Casas decimais da QTDE do documento fiscal DF-e: 3
-  Simular vendas DE  xxx litros ........................: 0
-  Simular vendas ATE xxx litros ........................: 100
+    Entre com o cenario IAT...............................: 2 ou 3
+    Preco Unitario........................................: R$ 5,899
+    Numero Casas decimais da QTDE na venda Equipamento IOT: 3
+    Numero Casas decimais da QTDE do documento fiscal DF-e: 3
+    Simular vendas DE  xxx litros ........................: 0
+    Simular vendas ATE xxx litros ........................: 100
 
 Neste cenario, identifiquei que o sistema comecou a apresentar varios alertas "Ajustado, porem com diferenca 
 entre: BD x DF-e".  Caso voce trabalhe com Postos de Combustiveis, a chance de voce ter problemas na geracao dos 
@@ -332,12 +320,12 @@ Depois de realizar os testes com preco unitario maior que R$ 5,000, resolver tes
 que R$ 10,000.  Veja o resultado a seguir.
 
 Fiz os testes com os seguintes campos de entrada:
-  Entre com o cenario IAT...............................: 2 ou 3
-  Preco Unitario........................................: R$ 10,899
-  Numero Casas decimais da QTDE na venda Equipamento IOT: 3
-  Numero Casas decimais da QTDE do documento fiscal DF-e: 3
-  Simular vendas DE  xxx litros ........................: 0
-  Simular vendas ATE xxx litros ........................: 100
+    Entre com o cenario IAT...............................: 2 ou 3
+    Preco Unitario........................................: R$ 10,899
+    Numero Casas decimais da QTDE na venda Equipamento IOT: 3
+    Numero Casas decimais da QTDE do documento fiscal DF-e: 3
+    Simular vendas DE  xxx litros ........................: 0
+    Simular vendas ATE xxx litros ........................: 100
 
 Neste cenario, identifiquei que o sistema comecou a apresentar varios erros "Numero de elementos impossivel 
 solucionar o ajuste da Qtde do DF-e".  Note que, quando os precos das bombas de combustiveis chegarem a este valor
@@ -388,9 +376,9 @@ conbinados com as diversas marcas e modelos de Equipamentos IOT sao inevitaveis 
 mesmo eliminar estes erros caso algumas medidas forem tomadas:
 
 * Quando possivel, parametrizar os campos IAT e numero de qtde decimais das bombas/balancas (consultar manual do fabricante)
-* Parametrizar os campos IAT da AC e do documento fiscal de acordo com o IAT da bomba/balanca
+* Parametrizar os campos IAT da AC e do documento fiscal de acordo com o IAT da bomba/balanca IOT
 * Utilizar 4 casas decimais na qtde do documento fiscal
-* Utilizar o algoritimo de interpolacao desta simulador de vendas a granel
+* Utilizar o algoritimo de interpolacao do SVG-IOT conforme codigo fonte disponivel neste projeto
 
 Espero que esta minha contribuicao possa te-lo ajudado de alguma forma.
 
