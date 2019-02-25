@@ -192,10 +192,10 @@ de cenarios:
 
 Cenario IAT |    BOMBA/BALANCA<br>(VENDA EQUIPAMENTO IOT) | EQUIPAMENTO FISCAL/SEFAZ<br>  (DOCUMENTO FISCAL DF-e)
  :--------- | :----------------------- | :------------------------
-    1*      | A         | A
-    2       | A         | T
-    3       | T         | A
-    4*      | T         | T
+1*      | A         | A
+2       | A         | T
+3       | T         | A
+4*      | T         | T
  
 
 Note que, nos cenarios 1 e 4 os IATs do euipamento IOT e DF-e sao equivalentes nos dois ambientes e 
@@ -256,17 +256,17 @@ pelo delimitador "|".
     arred  = Valor total do IOT (prcuni * qt) - metodo arredondado
     trunc  = Valor total do IOT (prcuni * qt) - metodo truncado
     d      = diferenca apurada entre o valor arredondado e truncado (arred-trunc)
-    *Nota:* Note que, dependendo do cenario IAT o campo arred ou trunc estara delimitado 
+    Nota: Note que, dependendo do cenario IAT o campo arred ou trunc estara delimitado 
     por cochetes indicando se utilizado "A" ou "T".  Ex: [arred=10.00]  
 
 ### Detalhando os elementos de vendas ajustados do DF-e:
 
-    Iteracao  = Numero da iteracao utilizada na tentativa de solucionar o possivel conflito de arredondamento e truncamento.  Caso for possivel resolver o problema sera exibido AchouN, onde N é a iteracao que resolveu a diferenca. Caso contrario, sera exibido "Erro".
-    qtN       = Qtde ajustada do DF-e (incrementada/decrementada de acordo com o numero de iteracao)
+    Iteracao  = Numero da iteracao utilizada para solucionar o possivel conflito de arredondamento e truncamento.  
+    qtN       = Qtde ajustada do DF-e (incrementada/decrementada de acordo com o numero de iteracao "N")
     arredN    = Valor total do DF-e (prcuni * qtN) pelo metodo arredondado
     truncN    = Valor total do DF-e (prcuni * qtN) pelo metodo truncado
     dN        = diferenca apurada entre o valor arredondado e truncado (arred-trunc)
-    **Nota:* Note que, dependendo do cenario IAT o campo arred ou trunc estara delimitado por cochetes dependendo do metodo se "A" ou "T".  Ex: [arred=10.00]  
+    Nota: Note que, dependendo do cenario IAT o campo arred ou trunc estara delimitado por cochetes dependendo do metodo se "A" ou "T".  Ex: [arred=10.00]  
 
 ## 3. Apresentacao do Resultado das Analises dos Elementos de vendas
 
@@ -294,6 +294,7 @@ e decrementos.
 ## ALERTAS COM BOMBAS VENDENDO COM PRECO UNITARIO MAIOR QUE R$ 5,000 POR LITRO
 
 Testei o SVG-IOT com varios cenarios tentando prever impactos na emissao de DF-e no mundo real.
+
 Fiz os testes com os seguintes campos de entrada:
 
     Entre com o cenario IAT...............................: 2 ou 3
@@ -311,8 +312,7 @@ Portanto, recomendo que voce modifique a sua aplicacao comercial em uma das segu
 * Alterar o seu aplicativo comercial quanto o ERP para tratar o campo IAT no seu banco de dados 
 * Alterar o seu aplicativo comercial quanto o ERP para tratar o campo Qtde com 4 casas decimais   
 
-  Nota: Fazendo novamente os testes acima mas modificando o campo Numero Casas Decimais da Qtde do DF-e para 4 casas 
-  decimais os alertas de diferencas entre BD x DF-e pararam de ser gerados.
+>Nota: Fazendo novamente os testes acima mas modificando o campo Numero Casas Decimais da Qtde do DF-e para 4 casas decimais os alertas de diferencas entre BD x DF-e pararam de ser gerados.
 
 ## ERROS COM BOMBAS VENDENDO COM PRECO UNITARIO MAIOR QUE R$ 10,000 POR LITRO
 
@@ -320,6 +320,7 @@ Depois de realizar os testes com preco unitario maior que R$ 5,000, resolver tes
 que R$ 10,000.  Veja o resultado a seguir.
 
 Fiz os testes com os seguintes campos de entrada:
+
     Entre com o cenario IAT...............................: 2 ou 3
     Preco Unitario........................................: R$ 10,899
     Numero Casas decimais da QTDE na venda Equipamento IOT: 3
@@ -334,8 +335,7 @@ Neste caso, havera rejeicao do XML pelo SEFAZ ou travamento no ECF.
 A unica forma de contornar esta situacao é modificando a sua aplicacao comercial quanto o ERP para tratar o campo 
 Qtde com 4 casas decimais.
 
-  Nota: Fazendo novamente os testes acima mas modificando o campo Numero Casas Decimais da Qtde do DF-e para 4 casas 
-  decimais os alertas de diferencas entre BD x DF-e pararam de ser gerados.
+>Nota: Fazendo novamente os testes acima mas modificando o campo Numero Casas Decimais da Qtde do DF-e para 4 casas decimais os alertas de diferencas entre BD x DF-e pararam de ser gerados.
 
 ---
 
@@ -350,12 +350,13 @@ o que intensifica ainda mais a situacao.
 Realizei os testes com preco unitario de R$ 69,900, e o problema ocorre em praticamente todos os elementos de vendas.
 
 Fiz os testes com os seguintes campos de entrada:
-  Entre com o cenario IAT...............................: 2 ou 3
-  Preco Unitario........................................: R$ 69,90
-  Numero Casas decimais da QTDE na venda Equipamento IOT: 2
-  Numero Casas decimais da QTDE do documento fiscal DF-e: 3
-  Simular vendas DE  xxx litros ........................: 0
-  Simular vendas ATE xxx litros ........................: 100
+
+    Entre com o cenario IAT...............................: 2 ou 3
+    Preco Unitario........................................: R$ 69,90
+    Numero Casas decimais da QTDE na venda Equipamento IOT: 2
+    Numero Casas decimais da QTDE do documento fiscal DF-e: 3
+    Simular vendas DE  xxx litros ........................: 0
+    Simular vendas ATE xxx litros ........................: 100
 
 Neste cenario, praticamente para todos os elementos de vendas ocorreram erros sem ser possivel fazer o ajuste.
 Muitas software houses resolvem este problema recalculando a Qtde como sendo o valor total (gerado pela balanca)
@@ -364,18 +365,16 @@ vez que as diferencas ajustas na Qtde do DF-e pode chegar a decimos ou centisimo
 como o proposto por este aplicativo.
 Mais uma vez, para contornar esta situacao é necessario a modificacao da aplicacao comercial e do ERP para tratar o 
 campo Qtde com 4 casas decimais.
-  Nota: Fazendo novamente os testes acima mas modificando o campo Numero Casas Decimais da Qtde do DF-e para 4 casas 
-  decimais os erros pararam mas foram gerados alertas de diferencas entre BD x DF-e.
+>Nota: Fazendo novamente os testes acima mas modificando o campo Numero Casas Decimais da Qtde do DF-e para 4 casas decimais os erros pararam mas foram gerados alertas de diferencas entre BD x DF-e.
 
 ---
 
 # Conclusao:
 
-Os problemas de arredondamento e truncamento na automacao comercial nas vendas a granael 
-conbinados com as diversas marcas e modelos de Equipamentos IOT sao inevitaveis mas é possivel mitigar ou ate
-mesmo eliminar estes erros caso algumas medidas forem tomadas:
+Os problemas de arredondamento e truncamento na automacao comercial nas vendas a granel 
+conbinados com as diversas marcas e modelos de Equipamentos IOT existentes sao inevitaveis mas é possivel mitigar ou ate mesmo eliminar estes erros caso algumas medidas forem tomadas:
 
-* Quando possivel, parametrizar os campos IAT e numero de qtde decimais das bombas/balancas (consultar manual do fabricante)
+* Quando possivel, parametrizar os campos IAT e numero de qtde decimais das bombas/balancas (consultar manual do fabricante) para garantir o mesmo metodo do aplicativo comercial
 * Parametrizar os campos IAT da AC e do documento fiscal de acordo com o IAT da bomba/balanca IOT
 * Utilizar 4 casas decimais na qtde do documento fiscal
 * Utilizar o algoritimo de interpolacao do SVG-IOT conforme codigo fonte disponivel neste projeto
