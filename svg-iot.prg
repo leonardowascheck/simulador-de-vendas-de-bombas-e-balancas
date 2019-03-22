@@ -56,7 +56,7 @@ func Main ()
 
       private nARREDONDADO, nTRUNCADO, nARRED_NEW, nTRUNC_NEW
 
-      altd ()
+      // altd ()
 
       EmiteRelatorioVendasSimuladasIOT ()
 
