@@ -14,50 +14,55 @@ func Main ()
 
    Init_Windows_Terminal ()
 
-   // seta valores default para os campos de entrada pelo usuario
-   cCENARIO_IAT            = '2' // cenario IAT mais comum encontrado no mercado
-   nPrecoUnit              = 5.899 // 2.399 // 2.077 // 1.999 // 10.099
-   nQTDE_DE                = 0.0      
-   nQTDE_ATE               = 100
-   nNumCasasDecimaisQtdIOT = 3  
-   nNumCasasDecimaisQtdDfe = 3  
+   While (.t.)
 
-   ObtemEntradaDadosUsuario ()
+      // seta valores default para os campos de entrada pelo usuario
+      cCENARIO_IAT            = '2' // cenario IAT mais comum encontrado no mercado
+      nPrecoUnit              = 5.899 // 2.399 // 2.077 // 1.999 // 10.099
+      nQTDE_DE                = 0.0      
+      nQTDE_ATE               = 100
+      nNumCasasDecimaisQtdIOT = 3  
+      nNumCasasDecimaisQtdDfe = 3  
 
-   /////////////////////////////////////////////////////////////
-   // prepara variaveis necessarias para emissao do relatorio //
-   /////////////////////////////////////////////////////////////
+      ObtemEntradaDadosUsuario ()
 
-   nIncrementaQtdIot = 1 / (10 ^ nNumCasasDecimaisQtdIOT) // incrementa a 2a, 3a ou 4a casa decimal da qtde para cada elemento de uma venda do equipamento IOT
-   nIncrementaQtdDfe = 1 / (10 ^ nNumCasasDecimaisQtdDfe) // incrementa a 2a, 3a ou 4a casa decimal da qtde para cada elemento de uma venda de um documento fiscal eletronico (DF-e)
+      /////////////////////////////////////////////////////////////
+      // prepara variaveis necessarias para emissao do relatorio //
+      /////////////////////////////////////////////////////////////
 
-   if VAL (Str (nQTDE_DE, 10, 4)) = 0
-      nQTDE_DE += nIncrementaQtdIot
-   end
+      nIncrementaQtdIot = 1 / (10 ^ nNumCasasDecimaisQtdIOT) // incrementa a 2a, 3a ou 4a casa decimal da qtde para cada elemento de uma venda do equipamento IOT
+      nIncrementaQtdDfe = 1 / (10 ^ nNumCasasDecimaisQtdDfe) // incrementa a 2a, 3a ou 4a casa decimal da qtde para cada elemento de uma venda de um documento fiscal eletronico (DF-e)
 
-   if cCENARIO_IAT = '2'
-      cIAT_IOT = 'A'        
-      cIAT_DFE = 'T'
-   else // cCENARIO_IAT = '3'
-      cIAT_IOT = 'T'        
-      cIAT_DFE = 'A'
-   end
+      if VAL (Str (nQTDE_DE, 10, 4)) = 0
+         nQTDE_DE += nIncrementaQtdIot
+      end
 
-   nRequereramAjustes = 0
-   nErroElementosNaoSolucionados = 0
-   nContadorTotalElementos = 0 
-   nNumMaiorIteracao = 0 
-   nRequereramAjustesComMaisUmaIteracao = 0
-   nContadorDifMaiorUmCentavos = 0 
-   nContadorPossiveisDiferencasBD  = 0 
+      if cCENARIO_IAT = '2'
+         cIAT_IOT = 'A'        
+         cIAT_DFE = 'T'
+      else // cCENARIO_IAT = '3'
+         cIAT_IOT = 'T'        
+         cIAT_DFE = 'A'
+      end
 
-   private nARREDONDADO, nTRUNCADO, nARRED_NEW, nTRUNC_NEW
+      nRequereramAjustes = 0
+      nErroElementosNaoSolucionados = 0
+      nContadorTotalElementosIOT = 0 
+      nContadorTotalIteracoesDFE = 0 
+      nNumMaiorIteracao = 0 
+      nRequereramAjustesComMaisUmaIteracao = 0
+      nContadorDifMaiorUmCentavos = 0 
+      nContadorPossiveisDiferencasBD  = 0 
 
-   // altd ()
+      private nARREDONDADO, nTRUNCADO, nARRED_NEW, nTRUNC_NEW
 
-   EmiteRelatorioVendasSimuladasIOT ()
+      altd ()
 
-   // Ufa!
+      EmiteRelatorioVendasSimuladasIOT ()
+
+      // Ufa!
+
+   ENDDO
 
    return
 
@@ -165,7 +170,7 @@ func EmiteRelatorioVendasSimuladasIOT ()
    y = Row () // prepara posicao para o relatorio 
    
    // relatorio dos elementos de vendas simuladas dos equipamentos IOT
-   SimulaElementosVendasIotDfe ()
+   SimulaElementosVendasIot ()
    
    cCol = SetColor ('W+')
    ? '------------- < < Parametros de Entrada Utilizado - Cenario Usuario > > ---------------'
@@ -174,17 +179,18 @@ func EmiteRelatorioVendasSimuladasIOT ()
    ? 'Preco unitario........................................: ' + Str (nPrecoUnit, 6, 3)
    ? 'Numero Casas decimais da QTDE na venda Equipamento IOT: ' + Str (nNumCasasDecimaisQtdIOT, 3)
    ? 'Numero Casas decimais da QTDE no documento fiscal DF-e: ' + Str (nNumCasasDecimaisQtdDfe, 3)
-   ? 'Simular vendas DE  xxx litros ........................: ' + Str (nQTDE_DE, 3)
-   ? 'Simular vendas ATE xxx litros ........................: ' + Str (nQTDE_ATE, 3)
+   ? 'Simular vendas DE  xxx litros ........................: ' + Str (nQTDE_DE, 6, 2)
+   ? 'Simular vendas ATE xxx litros ........................: ' + Str (nQTDE_ATE, 6, 2)
      
    SetColor ('W+')
    ? '--------------- < < Resultado das Analises dos Elementos de vendas > > ----------------'
    SetColor (cCol)
-   ? 'Numero de elementos que requereram ajustes na Qtde do DF-e.....................: ' + Str (nRequereramAjustes, 6)  
-   ? 'Numero de elementos que nao requereram ajustes na Qtde do DF-e.................: ' + Str (nContadorTotalElementos - nRequereramAjustes, 6)  
+   ? 'Numero de elementos vendas IOT que requereram ajustes na Qtde do DF-e..........: ' + Str (nRequereramAjustes, 6)  
+   ? 'Numero de elementos vendas IOT que nao requereram ajustes na Qtde do DF-e......: ' + Str (nContadorTotalElementosIOT - nRequereramAjustes, 6)  
    ?  '                                                                                 ------' 
-   ? 'Total de elementos analisados..................................................: ' + Str (nContadorTotalElementos, 6) 
+   ? 'Total de elementos vendas IOT analisados.......................................: ' + Str (nContadorTotalElementosIOT, 6) 
    ?
+   ? 'Numero de iteracoes analisadas para verificacao de ajustes na Qtde Df-e........: ' + Str (nContadorTotalIteracoesDFE, 6)
    ? 'Numero de elementos que requereram ajustes na Qtde Df-e com mais de 1 iteracao.: ' + Str (nRequereramAjustesComMaisUmaIteracao, 6)
    ? 'Numero da maior iteracao utilizada nos ajuestes da Qtde do Dfe.................: ' + Str (nNumMaiorIteracao, 6)
    
@@ -202,13 +208,13 @@ func EmiteRelatorioVendasSimuladasIOT ()
    ? '       As consequencias destas diferencas sao desde travamento/cancelamento/rejeicao do documento fiscal ou possiveis reclamacoes'
    ? '       por parte do consumidor junto ao procon, uma vez que o valor do display da bomba/balanca nao bate com o documento fiscal.'
    ?
-   ? 'Pressione qualquer tecla para sair...'
+   ? 'Pressione qualquer tecla para emitir outro relatorio...'
    Inkey (0)
    
    return
 
 
-func SimulaElementosVendasIotDfe () 
+func SimulaElementosVendasIot () 
 private nQTDE := nQTDE_DE, nCol
 
    While (VAL (Str (nQTDE, 10, 4)) <= nQTDE_ATE)
@@ -238,7 +244,7 @@ private nQTDE := nQTDE_DE, nCol
       end
    
       nQTDE += nIncrementaQtdIot
-      nContadorTotalElementos++
+      nContadorTotalElementosIOT++
    
    ENDDO
    
@@ -258,6 +264,7 @@ func ImprimeElementosDasIteracoesDfe (nARREDONDADO, nTRUNCADO, nSinal)
       cn = PadR (Alltrim (Str (nNumIteracao, 2)), 2)
       // incrementa ou decrementa uma unidade na ultima casa decimal informada pelo usuario  
       nQTDE_NEW += (nIncrementaQtdDfe * nSinal) 
+      nContadorTotalIteracoesDFE++
       // pega os valores totais das iteracoes ajustadas do DF-e pelos metodos arredondado e truncado
       GetValoresIAT (nQTDE_NEW, nNumCasasDecimaisQtdDfe, nPrecoUnit, @nARRED_NEW, @nTRUNC_NEW)
       if (cIAT_DFE = 'T' .and. nARREDONDADO = nTRUNC_NEW) .or. ;
@@ -320,7 +327,7 @@ return
   
 
 func GetValoresIAT (nQTDE, nNumCasasDecimaisQtd, nPrecoUnit, nARREDONDADO, nTRUNCADO)
-local nFixRound := (1 / (10 ^ (nNumCasasDecimaisQtd + 1))) * 5 // nNumCasasDecimais=2 -> nFixRound = 0.005, nNumCasasDecimais=3 -> nFixRound = 0.0005, nNumCasasDecimais=4 -> nFixRound = 0.00005
+local nFixRound := (1 / (10 ^ (nNumCasasDecimaisQtd + 4))) * 5 // nNumCasasDecimais=2 -> nFixRound = 0.005, nNumCasasDecimais=3 -> nFixRound = 0.0005, nNumCasasDecimais=4 -> nFixRound = 0.00005
 
    // trunca valor total da venda com duas casas decimais (ignorando as demais casas)
    nTRUNCADO = VAL (Left (Str ((nQTDE * nPrecoUnit) + 0.00005, 13, 6), 9) )
