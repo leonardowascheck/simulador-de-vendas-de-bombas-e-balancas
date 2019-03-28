@@ -25,8 +25,8 @@
 # diretorios de empacotamento (criacao de executaveis)
 build/
 dist/
-__pycahe__/
-.idea/
+python/__pycahe__/
+python/.idea/
 
 # Prototype Files (INI) - entrada de dados do usuario
 *.ini
