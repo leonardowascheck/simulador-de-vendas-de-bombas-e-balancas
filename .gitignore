@@ -23,10 +23,10 @@
 *.rar
 
 # diretorios de empacotamento (criacao de executaveis)
-build/
-dist/
-python/__pycache__/
-python/.idea/
+source/python/build/
+source/python/dist/
+source/python/__pycache__/
+source/python/.idea/
 
 # Prototype Files (INI) - entrada de dados do usuario
 *.ini
