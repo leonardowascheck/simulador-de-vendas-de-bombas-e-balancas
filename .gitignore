@@ -1,6 +1,9 @@
 # Compiled class file
 *.class
 
+# spec files
+*.spec
+
 # Log file
 *.log
 
@@ -19,8 +22,20 @@
 *.tar.gz
 *.rar
 
-# Prototype Files (INI)
+# diretorios de empacotamento (criacao de executaveis)
+build/
+dist/
+__pycahe__/
+
+# Prototype Files (INI) - entrada de dados do usuario
 *.ini
+
+# Arquivo JSON de entrada de dados do usuario 
+*.json
+
+# Arquivos Excel - relatorio 
+*.xls
+*.xlsx
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*

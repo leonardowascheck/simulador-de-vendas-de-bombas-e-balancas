@@ -1,8 +1,8 @@
 # Bem vindo ao SVG-IOT - Simulador de Vendas a Granel no Varejo 
 
 O Simulador de Vendas a Granel de bombas e balancas (Equipamentos IOT) é
-um software de dominio publico desenvolvido em liguagem Harbour 3.0 de facil
-entendimento.
+um software distribuido sob a licença MIT License desenvolvido em liguagem Python 3.7 e Harbour 3.0.
+Para saber um pouco mais sobre as diferencas entre as linguagens clique em [um pouco sobre o fonte em harbour e Python](#um-pouco-sobre-o-fonte-em-harbour-e-python).
 
 # Conteudo 
 
@@ -262,6 +262,7 @@ pelo delimitador "|".
     arredN    = Valor total do DF-e (prcuni * qtN) pelo metodo arredondado
     truncN    = Valor total do DF-e (prcuni * qtN) pelo metodo truncado
     dN        = diferenca apurada entre o valor arredondado e truncado (arred-trunc)
+    mensagem  = mensagem de alerta ou erro caso ocorram 
 >Nota: Note que, dependendo do cenario IAT o campo arred ou trunc estara delimitado por cochetes dependendo do metodo se "A" ou "T".  Ex: [arred=10.00]  
 
 ## Apresentacao do Resultado das Analises dos Elementos de vendas
@@ -374,6 +375,29 @@ conbinados com as diversas marcas e modelos de Equipamentos IOT existentes sao i
 * Utilizar o algoritimo de interpolacao do SVG-IOT conforme codigo fonte disponivel neste projeto
 
 Espero que esta minha contribuicao possa te-lo ajudado de alguma forma.
+
+---
+
+# Um pouco sobre o fonte em Harbour e Python
+
+### Harbour
+O aplicativo SVG-IOT originalmente foi desenvolvido em Harbour 3.0 mas pode ser compilado em qualquer linguagem padrao xBase 32/64 bits nas plataformas Windows e Linux.  O relatorio desta versão é uma exibicao simples no console.  Sugestoes de melhorias atraves de pull request para exportar o relatorio para o formato Excel sera muito bem vinda.
+A entrada de dados do usuario é persistido no arquivo SVG-IOT.INI.
+
+### Python
+O aplicativo SVG-IOT versao Python foi refaturado a partir do codigo fonte Harbour e foi adicionado algumas melhorias, tais como a exportacao do relatorio final para o Excel.  A geração do relatorio foi separada em duas etapas sendo a primeira a montagem da imagem (estrutura lista dos elementos de vendas) em memoria e em seguida a formatacao das celulas do formato Excel 2003.
+Depois que realizei alguns testes pude verificar que a biblioteca xlwt (padrao Excel 2003)tem uma limitacao critica que impede que seja criado mais de 65536 (2 ^16) linhas.  Portanto, ao executar o programa for levantado o erro "ValueError: row index was 65536, not allowed by .xls format" nao se assuste, procure colocar um periodo ou numero de casas menor e tente novamente.
+Minha proxima alteracao sera refaturar o codigo para integrar com a biblioteca Openpyxl (padrao Excel 2010).  Em breve, a Microsoft estara disponibilizando uma biblioteca do Excel mais recente para o Python. 
+Foi utilizado a biblioteca GUI Tkinter e suas derivacoes ttk e Pmw
+A entrada de dados do usuario é persistida no arquivo SVG-IOT.JSON.
+Este foi o meu primeiro programa desenvolvido em Python portanto seria interessante se alguem propussesse alteracoes via pull request pois a orientacao a obejtos pode ser melhorada.
+
+### Instalaçao do aplicativo
+
+>Para instalar o aplicativo na versao Harbour em ambiente windows é simples, basta copiar o executavel  em um diretorio de sua preferencia, nada mais é necessario.  Para ambiente linux, sera necessario compilar o programa sgv-iot.prg no Harbour nesta plataforma.
+
+>Para o Python, sera necessario ter o Python 3.x, baixar os fontes do svg-iot e rodar o svg-iot.py.  Sera necessario instalar a biblioteca xlwt, para isso abra um prompt no seu ambiente virtual ou anaconda e digite "pip install xlwt". 
+Apesar de nao ter sido testado em outras plataformas o codigo fonte foi escrito para ser compativel com Mac, Windows e Linux.
 
 ---
 
