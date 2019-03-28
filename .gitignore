@@ -26,6 +26,7 @@
 build/
 dist/
 __pycahe__/
+.idea/
 
 # Prototype Files (INI) - entrada de dados do usuario
 *.ini
